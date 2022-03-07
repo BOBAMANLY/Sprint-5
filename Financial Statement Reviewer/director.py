@@ -10,17 +10,18 @@ class Director:
     def __init__(self):
         self.file_name = ""
         self.choice = ""
+        self.filters = []
 
     def create_report(self):
 
         # Get the file name
-        self.file = UseFile().get_file_name()
+        self.file_name = UseFile().get_file_name()
         
         # choose filters
-        filters = UseFile().get_filters()
+        self.filters = UseFile().get_filters()
 
         # Create a new report
-        report = Report(self.file, filters)
+        report = Report(self.file_name, self.filters)
 
     def view_report(self):
         # TODO: Implement this function

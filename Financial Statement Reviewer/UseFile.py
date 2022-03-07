@@ -7,6 +7,7 @@ from os import system, name
 class UseFile:
     def __init__(self):
         self.file = ""
+        self.file_name = ""
         self.csv = []
         self.filters = []
 
@@ -73,8 +74,8 @@ class UseFile:
                     print("\nInvalid input. Please try again.")
 
             # Get the file name
-            self.file = path_options[file_number - 1]
-            return self.file
+            self.file_name = path_options[file_number - 1]
+            return self.file_name
 
     def get_file(self):
         return self.file
