@@ -12,7 +12,10 @@ class Director:
         self.choice = ""
 
     def create_report(self):
-        pass
+        # Get the file name
+        self.file_name = UseFile().get_file_name()
+        # Create a new report
+        Report(self.file_name)
 
     def view_report(self):
         pass
