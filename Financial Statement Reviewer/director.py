@@ -73,6 +73,7 @@ class Director:
             self.clear()
             print("Goodbye!")
             sleep(2)
+            self.clear()
             exit()
         else:
             print("Something went wrong.")
