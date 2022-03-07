@@ -64,7 +64,7 @@ class UseFile:
             while True:
                 try:
                     file_number = int(input("\nEnter the number of the file you wish to analyze: "))
-                    if file_number <= 0 or file_number > len(os.listdir(path)):
+                    if file_number <= 0 or file_number > len(path_options):
                         print("\nInvalid input. Please try again.")
                         continue
                     else:
@@ -73,7 +73,7 @@ class UseFile:
                     print("\nInvalid input. Please try again.")
 
             # Get the file name
-            self.file = os.listdir(path)[file_number - 1]
+            self.file = path_options[file_number - 1]
             return self.file
 
     def get_file(self):

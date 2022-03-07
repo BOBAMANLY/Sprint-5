@@ -12,18 +12,26 @@ class Director:
         self.choice = ""
 
     def create_report(self):
+
         # Get the file name
-        self.file_name = UseFile().get_file_name()
+        self.file = UseFile().get_file_name()
+        
+        # choose filters
+        filters = UseFile().get_filters()
+
         # Create a new report
-        Report(self.file_name)
+        report = Report(self.file, filters)
 
     def view_report(self):
+        # TODO: Implement this function
         pass
 
     def view_csv(self):
+        # TODO: Implement this function
         pass
 
     def view_filters(self):
+        # TODO: Implement this function
         pass
 
     def clear(self):
