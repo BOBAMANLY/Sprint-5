@@ -1,7 +1,22 @@
 import json
+from os import system, name
+
 class Filters:
     def __init__(self):
-        pass
+        self.filters = self.read_filters()
+
+    def clear(self):
+  
+        # for windows
+        if name == 'nt':
+            _ = system('cls')
+    
+        # for mac and linux(here, os.name is 'posix')
+        else:
+            _ = system('clear')
+    
+    def get_filters(self):
+        return self.filters
 
     def write_filters(self,json_file):
         with open("Financial Statement Reviewer/filters.json", 'w') as jsonfile:
@@ -12,7 +27,13 @@ class Filters:
             self.filters = json.load(jsonfile)
         return self.filters
 
+    def display_filters(self):
+        for item in self.filters["Saved Filters"]:
+            print(json.dumps(item, indent=3, sort_keys=True))
+
     def create_filters(self):
-        pass
+        self.clear()
+        print("...Create Filters...")
+        
 
     

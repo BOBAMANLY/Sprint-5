@@ -1,6 +1,7 @@
 # Code imports
 from UseFile import UseFile
 from Report import Report
+from filters import Filters
 
 # Library imports
 from os import system, name
@@ -10,30 +11,47 @@ class Director:
     def __init__(self):
         self.file_name = ""
         self.choice = ""
-        self.filters = []
+        self.filters_object = Filters()
 
     def create_report(self):
+        self.clear()
 
-        # Get the file name
-        self.file_name = UseFile().get_file_name()
-        
-        # choose filters
-        self.filters = UseFile().get_filters()
+        # Determine if filters are needed
+        loop = True
+        while loop == True:
+            use_filters = input("Would you like to use filters? (yes/no): ").lower()
+            if use_filters == "yes" or use_filters == "no":
+                loop = False
+            else:
+                print("\nInvalid input. Please try again.")
+                continue
 
         # Create a new report
-        report = Report(self.file_name, self.filters)
+        report = Report(self.file_name, self.filters_object.get_filters(), use_filters).create_report()
+
+        # Save the report
+        report.save_report(report)
 
     def view_report(self):
         # TODO: Implement this function
         pass
 
     def view_csv(self):
-        # TODO: Implement this function
-        pass
+        self.clear()
+        print("...Financial Statement Reveiwer...")
+        print(f"\nFile: {self.file_name}\n")
+        csv_file = UseFile().read_csv(self.file_name)
+        for line in csv_file:
+            print(line)
+
+        input("\nPress enter to return to the main menu.")
+        self.main_menu()
 
     def view_filters(self):
-        # TODO: Implement this function
-        pass
+        self.clear()
+        self.filters_object.display_filters()
+        input("Press enter to return to the main menu.")
+        self.main_menu()
 
     def clear(self):
   
@@ -71,6 +89,11 @@ class Director:
         
         # Clear the screen
         self.clear()
+
+        # get file name based on menu choice
+        if self.choice == 1 or self.choice == 3:
+            # get the file name
+            self.file_name = UseFile().get_file_name()
 
         # Execute the user's choice
         if self.choice == 1:

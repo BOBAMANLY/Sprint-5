@@ -1,7 +1,29 @@
 {"Saved Filters":[{
-    "Jacob": [{
-        "name": "Jacob",
-        "age": "21"
+    "Template": [{
+        "date": "",
+        "amount": "",
+        "description": "",
+        "category": "",
+        "classification": ""
         }]
-    }]
+    }],
+    "Category Options": [
+        "food", 
+        "clothing", 
+        "entertainment", 
+        "transportation", 
+        "income", 
+        "savings", 
+        "debt", 
+        "refund",
+        "living expenses",
+        "gifts",
+        "travel",
+        "other"
+    ],
+    "Classification Options": [
+        "necessary",
+        "unnecessary",
+        "other"
+    ]
 }

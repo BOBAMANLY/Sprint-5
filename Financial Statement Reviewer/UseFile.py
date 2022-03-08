@@ -10,8 +10,8 @@ class UseFile:
         self.file_name = ""
         self.csv = []
 
-    def read_csv(self):
-        with open(self.file, 'r') as csvfile:
+    def read_csv(self, file_name):
+        with open(f"Financial Statement Reviewer/CSV Files/{file_name}", 'r') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 self.csv.append(row)
