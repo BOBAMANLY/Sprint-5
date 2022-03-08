@@ -9,7 +9,6 @@ class UseFile:
         self.file = ""
         self.file_name = ""
         self.csv = []
-        self.filters = []
 
     def read_csv(self):
         with open(self.file, 'r') as csvfile:
@@ -17,15 +16,6 @@ class UseFile:
             for row in reader:
                 self.csv.append(row)
         return self.csv
-
-    def read_filters(self):
-        with open("Financial Statement Reviewer/filters.json", 'r') as jsonfile:
-            self.filters = json.load(jsonfile)
-        return self.filters
-
-    def write_filters(self,json_file):
-        with open("Financial Statement Reviewer/filters.json", 'w') as jsonfile:
-            json.dump(json_file, jsonfile)
 
     def clear(self):
   
@@ -82,8 +72,5 @@ class UseFile:
         
     def get_csv(self):
         return self.csv
-
-    def get_filters(self):
-        return self.filters
 
         
