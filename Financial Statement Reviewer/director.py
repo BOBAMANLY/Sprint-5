@@ -13,8 +13,24 @@ class Director:
         self.choice = ""
         self.filters_object = Filters()
 
+    def csv_info(self):
+        loop = True
+        while loop == True:
+            print("We will need some information to create a report from your .csv file.")
+            print("Use this example to help you: \n")
+            print("  1    |     2     |    3")
+            print("1/1/10 | Groceries | $100.00\n")
+            date_column = input("Using the example tell us which column in your .csv file is the date: ")
+            descriptions_column = input("Using the example tell us which column in your .csv file is the description: ")
+            amount_column = input("Using the example tell us which column in your .csv file is the amount: ")
+
+
     def create_report(self):
         self.clear()
+        csv_column_info = self.csv_info()
+
+        
+
 
         # Determine if filters are needed
         loop = True
@@ -112,6 +128,7 @@ class Director:
             exit()
         else:
             print("Something went wrong.")
+            print("Restart and try again.")
 
         
             

@@ -1,6 +1,11 @@
 {"Saved Filters":[{
     "Template": [{
-        "date": "",
+        "amount": "",
+        "description": "",
+        "category": "",
+        "classification": ""
+        }], 
+    "Template 2": [{
         "amount": "",
         "description": "",
         "category": "",
