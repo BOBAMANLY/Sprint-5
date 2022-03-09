@@ -24,13 +24,30 @@ class Director:
             descriptions_column = input("Using the example tell us which column in your .csv file is the description: ")
             amount_column = input("Using the example tell us which column in your .csv file is the amount: ")
 
+            # shows negative?
+            negative_numbers_bool = input("Does your .csv file show negative numbers? (yes/no): ").lower()
+            try:
+                if negative_numbers_bool == "yes":
+                    negative_numbers_bool = True
+                elif negative_numbers_bool == "no":
+                    negative_numbers_bool = False
+                else:
+                    raise ValueError
+                date_column = int(date_column)-1
+                descriptions_column = int(descriptions_column)-1
+                amount_column = int(amount_column)-1
+                assert date_column >= 0 and descriptions_column >= 0 and amount_column >= 0
+                loop = False
+                return date_column, descriptions_column, amount_column, negative_numbers_bool
+            except:
+                print("\nInvalid input. Please try again.")
+                continue
 
     def create_report(self):
         self.clear()
+
+        # Learn how the CSV file is organized
         csv_column_info = self.csv_info()
-
-        
-
 
         # Determine if filters are needed
         loop = True
@@ -43,10 +60,7 @@ class Director:
                 continue
 
         # Create a new report
-        report = Report(self.file_name, self.filters_object.get_filters(), use_filters).create_report()
-
-        # Save the report
-        report.save_report(report)
+        report = Report(self.file_name, self.filters_object.get_filters(), use_filters, csv_column_info).create_report()
 
     def view_report(self):
         # TODO: Implement this function
