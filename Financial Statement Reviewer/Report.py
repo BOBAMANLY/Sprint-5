@@ -31,4 +31,7 @@ class Report:
         # Return the file
         return csv_file
 
+    def filter_date(self, csv_file):
+        
+
         
