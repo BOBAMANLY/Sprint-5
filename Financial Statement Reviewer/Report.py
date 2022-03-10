@@ -105,9 +105,49 @@ class Report:
 
     def saved_filter_report(self, csv_file):
         #[{'date': '', 'amount': -886.95, 'description': '', 'category': '', 'classification': ''}]
-        for type in self.specific_filter[0]:
-            if type != "":
-                print(type)
+        report = []
+
+        for type in self.specific_filter:
+            if type["amount"] != "":
+                filtered_amounts = self.filter_amount(csv_file)
+                header = [f'Amount Filter: {type["amount"]}']
+                report.append(header)
+                for line in filtered_amounts:
+                    report.append(line)
+            if type["date"] != "":
+                filtered_dates = self.filter_date(csv_file)
+                if type["amount"] == "":
+                    header = [f'Date Filter: {type["date"]}']
+                else:
+                    header = ["", [f'Date Filter: {type["date"]}'], ""]
+                    report.append(header)
+                for line in filtered_dates:
+                    report.append(line)
+            if type["amount"] == "" and type["date"] == "":
+                no_filters = True
+            else: 
+                no_filters = False
+        
+        expenditures = self.organize_expenditures(csv_file)
+        income = self.organize_income(csv_file)
+
+        # Add all the transactions into the report
+        if no_filters == True:
+            header = [["Expenditures"], ""]
+        else:
+            header = ["", ["Expenditures"], ""]
+        for item in header:
+            report.append(item)
+        for line in expenditures:
+            report.append(line)
+        header = ["", ["Income"], ""]
+        for item in header:
+            report.append(item)
+        for line in income:
+            report.append(line)
+
+        # Save the report    
+        self.save_report(report)
         
 
     def filter_report(self, csv_file):
@@ -169,10 +209,12 @@ class Report:
     def filter_date(self, csv_file):
         filtered_dates = []
         if self.saved_filters_bool == True:
-            date_to_filter = self.specific_filter["date"]
+            date_to_filter = self.specific_filter[0]["date"]
             for transaction in csv_file:
                 if transaction[self.csv_column_info[0]] == date_to_filter:
                     filtered_dates.append(transaction)
+            if len(filtered_dates) == 0:
+                return [["No transactions found."], ""]
             return filtered_dates
 
         elif self.saved_filters_bool == False:
@@ -191,7 +233,7 @@ class Report:
     def filter_amount(self, csv_file):
         filtered_amounts = []
         if self.saved_filters_bool == True:
-            amount_to_filter = self.specific_filter["amount"]
+            amount_to_filter = self.specific_filter[0]["amount"]
             for transaction in csv_file:
                 if "$" in transaction[self.csv_column_info[2]]:
                     transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace("$", "")
@@ -202,6 +244,8 @@ class Report:
                     transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
                 if float(transaction[self.csv_column_info[2]]) == float(amount_to_filter):
                     filtered_amounts.append(transaction)
+            if len(filtered_amounts) == 0:
+                return [["No transactions found."], ""]
             return filtered_amounts
             
         elif self.saved_filters_bool == False:
@@ -236,6 +280,17 @@ class Report:
                 transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
             if float(transaction[self.csv_column_info[2]]) < 0.0:
                 expenditures.append(transaction)
+
+        count = 0
+        total = 0
+        for amount in expenditures:
+            count += 1
+            total += float(amount[self.csv_column_info[2]])
+
+        totals = ["", [f"Total Expenditures: {total:.2f}"], [f"Number of Expenditures: {count}"]]
+        for info in totals:
+            expenditures.append(info)
+
         return expenditures
 
     def organize_income(self, csv_file):
@@ -251,8 +306,14 @@ class Report:
             if float(transaction[self.csv_column_info[2]]) > 0.0:
                 income.append(transaction)
 
-        # types = {}
-        # for transaction in income:
-        #     if transaction[self.csv_column_info[1]] not in types:
-        #         types[transaction[self.csv_column_info[1]]] = float(transaction[self.csv_column_info[2]])
+        total = 0
+        count = 0
+        for amount in income:
+            count += 1
+            total += float(amount[self.csv_column_info[2]])
+
+        totals = ["", [f"Total Income: {total:.2f}"], [f"Number of Transactions: {count}"]]
+        for info in totals:
+            income.append(info)
+        
         return income
