@@ -48,16 +48,19 @@ class Report:
 
                         # Display the filter options
                         count = 0
+                        filter_names = [""]
                         for saved_filter in self.filters["Saved Filters"][count]:
                             count += 1
+                            filter_names.append(saved_filter)
                             print(f"{count}: {saved_filter}")
 
+                        # Get the filter to use
                         loop = True
                         while loop == True:
                             filter_choice = input("Please enter the number of the filter you would like to use: ")
-                            if filter_choice.isdigit() and int(filter_choice) <= len(self.filters["Saved Filters"] and int(filter_choice) > 0):
+                            if (filter_choice.isdigit() and int(filter_choice) <= len(self.filters["Saved Filters"]) and int(filter_choice) > 0):
                                 loop = False
-                                self.specific_filter = self.filters["Saved Filters"][int(filter_choice) - 1]
+                                self.specific_filter = self.filters["Saved Filters"][0][filter_names[int(filter_choice)]]
                                 self.saved_filter_report(csv_file)
                             else:
                                 print("\nInvalid input. Please try again.")
@@ -86,10 +89,14 @@ class Report:
 
         # Add all the transactions into the report
         report = []
-        report.append(("Expenditures"))
+        header = [["Expenditures"], ""]
+        for item in header:
+            report.append(item)
         for line in expenditures:
             report.append(line)
-        report.append(("Income"))
+        header = ["", ["Income"], ""]
+        for item in header:
+            report.append(item)
         for line in income:
             report.append(line)
 
@@ -97,7 +104,11 @@ class Report:
         self.save_report(report)
 
     def saved_filter_report(self, csv_file):
-        pass
+        #[{'date': '', 'amount': -886.95, 'description': '', 'category': '', 'classification': ''}]
+        for type in self.specific_filter[0]:
+            if type != "":
+                print(type)
+        
 
     def filter_report(self, csv_file):
         loop = True
@@ -239,4 +250,9 @@ class Report:
                 transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
             if float(transaction[self.csv_column_info[2]]) > 0.0:
                 income.append(transaction)
+
+        # types = {}
+        # for transaction in income:
+        #     if transaction[self.csv_column_info[1]] not in types:
+        #         types[transaction[self.csv_column_info[1]]] = float(transaction[self.csv_column_info[2]])
         return income
