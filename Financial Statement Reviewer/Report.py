@@ -3,6 +3,7 @@ import numpy as np
 from os import system, name
 from time import sleep
 import csv
+# import matplotlib.pyplot as plt
 
 from UseFile import UseFile
 
@@ -28,7 +29,7 @@ class Report:
 
     def save_report(self, report):
         report_name = input("Please enter a name for the report: ")
-        with open(f"Financial Statement Reviewer/Reports{report_name}.csv", "w", newline="") as save_file:
+        with open(f"Financial Statement Reviewer/Reports/{report_name}.csv", "w", newline="") as save_file:
             writer = csv.writer(save_file)
             writer.writerows(report)
 
@@ -58,7 +59,7 @@ class Report:
                         loop = True
                         while loop == True:
                             filter_choice = input("Please enter the number of the filter you would like to use: ")
-                            if (filter_choice.isdigit() and int(filter_choice) <= len(self.filters["Saved Filters"]) and int(filter_choice) > 0):
+                            if (filter_choice.isdigit() and int(filter_choice) <= len(self.filters["Saved Filters"][0]) and int(filter_choice) > 0):
                                 loop = False
                                 self.specific_filter = self.filters["Saved Filters"][0][filter_names[int(filter_choice)]]
                                 self.saved_filter_report(csv_file)
@@ -89,6 +90,10 @@ class Report:
 
         # Add all the transactions into the report
         report = []
+        main_header = ["Date", "Amount", "Description"]
+        header = [f"{main_header[0]:10}{main_header[1]:10}{main_header[2]:30}"]
+        report.append(header)
+        report.append("")
         header = [["Expenditures"], ""]
         for item in header:
             report.append(item)
@@ -106,6 +111,10 @@ class Report:
     def saved_filter_report(self, csv_file):
         #[{'date': '', 'amount': -886.95, 'description': '', 'category': '', 'classification': ''}]
         report = []
+        main_header = ["Date", "Amount", "Description"]
+        header = [f"{main_header[0]:10}{main_header[1]:10}{main_header[2]:30}"]
+        report.append(header)
+        report.append("")
 
         for type in self.specific_filter:
             if type["amount"] != "":
@@ -120,7 +129,7 @@ class Report:
                     header = [f'Date Filter: {type["date"]}']
                 else:
                     header = ["", [f'Date Filter: {type["date"]}'], ""]
-                    report.append(header)
+                report.append(header)
                 for line in filtered_dates:
                     report.append(line)
             if type["amount"] == "" and type["date"] == "":
@@ -184,6 +193,11 @@ class Report:
 
         # Add all the transactions into the report
         report = []
+        main_header = ["Date", "Amount", "Description"]
+        header = [f"{main_header[0]:10}{main_header[1]:10}{main_header[2]:30}"]
+        report.append(header)
+        report.append("")
+        
         if date_filter_q == "yes":
             report.append("Dates filtered")
             for transaction in filtered_dates:
@@ -212,7 +226,8 @@ class Report:
             date_to_filter = self.specific_filter[0]["date"]
             for transaction in csv_file:
                 if transaction[self.csv_column_info[0]] == date_to_filter:
-                    filtered_dates.append(transaction)
+                    data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                    filtered_dates.append(data)
             if len(filtered_dates) == 0:
                 return [["No transactions found."], ""]
             return filtered_dates
@@ -222,7 +237,8 @@ class Report:
             date_to_filter = input("Please enter the date you would like to filter by: ")
             for transaction in csv_file:
                 if transaction[self.csv_column_info[0]] == date_to_filter:
-                    filtered_dates.append(transaction)
+                    data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                    filtered_dates.append(data)
             return filtered_dates
 
         else:
@@ -243,7 +259,8 @@ class Report:
                     transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace("(", "-")
                     transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
                 if float(transaction[self.csv_column_info[2]]) == float(amount_to_filter):
-                    filtered_amounts.append(transaction)
+                    data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                    filtered_amounts.append(data)
             if len(filtered_amounts) == 0:
                 return [["No transactions found."], ""]
             return filtered_amounts
@@ -260,7 +277,8 @@ class Report:
                     transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace("(", "-")
                     transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
                 if float(transaction[self.csv_column_info[2]]) == float(amount_to_filter):
-                    filtered_amounts.append(transaction)
+                    data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                    filtered_amounts.append(data)
             return filtered_amounts
 
         else:
@@ -279,13 +297,14 @@ class Report:
                 transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace("(", "-")
                 transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
             if float(transaction[self.csv_column_info[2]]) < 0.0:
-                expenditures.append(transaction)
+                data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                expenditures.append(data)
 
         count = 0
         total = 0
         for amount in expenditures:
             count += 1
-            total += float(amount[self.csv_column_info[2]])
+            total += float(amount[1])
 
         totals = ["", [f"Total Expenditures: {total:.2f}"], [f"Number of Expenditures: {count}"]]
         for info in totals:
@@ -304,16 +323,54 @@ class Report:
                 transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace("(", "-")
                 transaction[self.csv_column_info[2]] = transaction[self.csv_column_info[2]].replace(")", "")
             if float(transaction[self.csv_column_info[2]]) > 0.0:
-                income.append(transaction)
+                data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                income.append(data)
 
         total = 0
         count = 0
         for amount in income:
             count += 1
-            total += float(amount[self.csv_column_info[2]])
+            total += float(amount[1])
 
         totals = ["", [f"Total Income: {total:.2f}"], [f"Number of Transactions: {count}"]]
         for info in totals:
             income.append(info)
         
         return income
+
+    # This is a bar graph example from the matplotlib documentation.
+    """
+    import matplotlib.pyplot as plt
+    import csv
+    
+    x = []
+    y = []
+    
+    with open('biostats.csv','r') as csvfile:
+        plots = csv.reader(csvfile, delimiter = ',')
+        
+        for row in plots:
+            x.append(row[0])
+            y.append(int(row[2]))
+    
+    plt.bar(x, y, color = 'g', width = 0.72, label = "Age")
+    plt.xlabel('Names')
+    plt.ylabel('Ages')
+    plt.title('Ages of different persons')
+    plt.legend()
+    plt.show()
+    """
+    def create_graph(self, data):
+        x = []
+        y = []
+
+        for key in data:
+            x.append(key)
+            y.append(data[key])
+
+        plt.bar(x, y, color = 'g', width = 0.72, label = "Age")
+        plt.xlabel('Names')
+        plt.ylabel('Ages')
+        plt.title('Ages of different persons')
+        plt.legend()
+        plt.show()
