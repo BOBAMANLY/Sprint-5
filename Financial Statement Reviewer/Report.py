@@ -3,7 +3,7 @@ import numpy as np
 from os import system, name
 from time import sleep
 import csv
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 from UseFile import UseFile
 
@@ -90,6 +90,8 @@ class Report:
 
         # Add all the transactions into the report
         report = []
+        chart_data_expenditures = {}
+        chart_data_income = {}
         main_header = ["Date", "Amount", "Description"]
         header = [f"{main_header[0]:10}{main_header[1]:10}{main_header[2]:30}"]
         report.append(header)
@@ -99,11 +101,19 @@ class Report:
             report.append(item)
         for line in expenditures:
             report.append(line)
+        # for line in expenditures:
+        #     if line[self.csv_column_info[1]] not in chart_data_expenditures:
+        #         chart_data_expenditures[line[self.csv_column_info[1]]] += float(line[self.csv_column_info[2]])
+        # self.create_graph(chart_data_expenditures)         
         header = ["", ["Income"], ""]
         for item in header:
             report.append(item)
         for line in income:
             report.append(line)
+        # for line in income:
+        #     if line[self.csv_column_info[1]] not in chart_data_income:
+        #         chart_data_income[line[self.csv_column_info[1]]] += float(line[self.csv_column_info[2]])
+        # self.create_graph(chart_data_income)  
 
         # Save the report    
         self.save_report(report)
@@ -368,9 +378,9 @@ class Report:
             x.append(key)
             y.append(data[key])
 
-        plt.bar(x, y, color = 'g', width = 0.72, label = "Age")
-        plt.xlabel('Names')
-        plt.ylabel('Ages')
-        plt.title('Ages of different persons')
+        plt.bar(x, y, color = 'g', width = 0.72, label = "Amount")
+        plt.xlabel('Category')
+        plt.ylabel('Amount Spent')
+        plt.title('Visual Representation of Bank Statement')
         plt.legend()
         plt.show()
