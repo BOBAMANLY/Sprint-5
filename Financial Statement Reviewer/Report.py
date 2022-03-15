@@ -142,7 +142,16 @@ class Report:
                 report.append(header)
                 for line in filtered_dates:
                     report.append(line)
-            if type["amount"] == "" and type["date"] == "":
+            if type["description"] != "":
+                filtered_descriptions = self.filter_description(csv_file)
+                if type["amount"] == "" or type["date"] == "":
+                    header = [f'Description Filter: {type["description"]}']
+                else:
+                    header = ["", [f'Description Filter: {type["description"]}'], ""]
+                report.append(header)
+                for line in filtered_descriptions:
+                    report.append(line)
+            if type["amount"] == "" and type["date"] == "" and type["description"] == "":
                 no_filters = True
             else: 
                 no_filters = False
@@ -290,6 +299,32 @@ class Report:
                     data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
                     filtered_amounts.append(data)
             return filtered_amounts
+
+        else:
+            print("\nInvalid input. Please restart and try again.")
+            sleep(2)
+            exit()
+
+    def filter_description(self, csv_file):
+        filtered_descriptions = []
+        if self.saved_filters_bool == True:
+            description_to_filter = self.specific_filter[0]["description"].lower()
+            for transaction in csv_file:
+                if description_to_filter in transaction[self.csv_column_info[1]].lower():
+                    data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                    filtered_descriptions.append(data)
+            if len(filtered_descriptions) == 0:
+                return [["No transactions found."], ""]
+            return filtered_descriptions
+
+        elif self.saved_filters_bool == False:
+            print("Input the description in the same format as your .csv file.")
+            description_to_filter = input("Please enter the description you would like to filter by: ").lower()
+            for transaction in csv_file:
+                if description_to_filter in transaction[self.csv_column_info[1]].lower():
+                    data = [f"{transaction[self.csv_column_info[0]]:10}", f"{transaction[self.csv_column_info[2]]:10}", f"{transaction[self.csv_column_info[1]]:30}"]
+                    filtered_descriptions.append(data)
+            return filtered_descriptions
 
         else:
             print("\nInvalid input. Please restart and try again.")
