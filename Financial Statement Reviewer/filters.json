@@ -19,7 +19,21 @@
         "description": "Venmo",
         "category": "",
         "classification": ""
-        }]
+        }],
+        "Walmart": [{
+            "date": "",
+            "amount": "",
+            "description": "Wal",
+            "category": "",
+            "classification": ""
+            }],
+            "Costco": [{
+                "date": "",
+                "amount": "",
+                "description": "Costco",
+                "category": "",
+                "classification": ""
+                }]
     }],
     "Category Options": [
         "food", 
