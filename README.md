@@ -1,34 +1,33 @@
 # Overview
 
-{Important!  Do not say in this section that this is college assignment.  Talk about what you are trying to accomplish as a software engineer to further your learning.}
+I wanted to write software that would be useful to myself to analyze my bank transactions and learn where I can save more money. It allowed me to learn more about how to filter data and analyze it in a way to display teh results to the user.
 
-{Provide a description of the data set that you are analyzing.  Include the link of where you obtained the data.}
+I am analyzing my own bank statements. You can add any csv file into the program that is downloaded by a bank.
 
-{Describe your purpose for writing this software to analyze the data.}
-
-{Provide a link to your YouTube demonstration.  It should be a 4-5 minute demo of the data set, the questions and answers, the code running and a walkthrough of the code.}
-
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/WxHmXj4TdoI)
 
 # Data Analysis Results
 
-{List the questions and the answers you found by doing this analysis.}
+(The answers vary depending on most recent transactions)
+
+How much have I spent in a certain timeframe?
+On ___ date, what transactions happened?
+How much income have a I received vs my expenditures?
+How many times did I make purchases at Walmart or Costco?
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
-
-{Describe the programming language that you used and any libraries.}
+I used VS Code to develop in python. I also used pandas, numpy, and system information.
 
 # Useful Websites
 
 {Make a list of websites that you found helpful in this project}
-* [Web Site Name](http://url.link.goes.here)
-* [Web Site Name](http://url.link.goes.here)
+* [W3Schools](https://www.w3schools.com/python/pandas/default.asp)
+* [W3Schools](https://www.w3schools.com/python/numpy/numpy_intro.asp)
 
 # Future Work
 
 {Make a list of things that you need to fix, improve, and add in the future.}
-* Item 1
-* Item 2
-* Item 3
+* Graph and charts
+* More defined filters
+* Better organization of data
