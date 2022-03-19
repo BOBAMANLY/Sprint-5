@@ -62,10 +62,6 @@ class Director:
         # Create a new report
         report = Report(self.file_name, self.filters_object.get_filters(), use_filters, csv_column_info).create_report()
 
-    def view_report(self):
-        # TODO: Implement this function
-        pass
-
     def view_csv(self):
         self.clear()
         print("...Financial Statement Reveiwer...")
@@ -98,10 +94,9 @@ class Director:
         # Display the main menu
         print("...Financial Statement Reveiwer...")
         print("1. Create a new report")
-        print("2. View a report")
-        print("3. View CSV file")
-        print("4. View filters")
-        print("5. Exit")
+        print("2. View CSV file")
+        print("3. View filters")
+        print("4. Exit")
 
         # Get user input and validate it
         loop = True
@@ -129,12 +124,10 @@ class Director:
         if self.choice == 1:
             self.create_report()
         elif self.choice == 2:
-            self.view_report()
-        elif self.choice == 3:
             self.view_csv()
-        elif self.choice == 4:
+        elif self.choice == 3:
             self.view_filters()
-        elif self.choice == 5:
+        elif self.choice == 4:
             self.clear()
             print("Goodbye!")
             sleep(2)
