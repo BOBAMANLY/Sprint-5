@@ -14,8 +14,12 @@ class Director:
         self.filters_object = Filters()
 
     def csv_info(self):
+
+        # Loop to verify user input
         loop = True
         while loop == True:
+
+            # Organize how to read the csv filed
             print("We will need some information to create a report from your .csv file.")
             print("Use this example to help you: \n")
             print("  1    |     2     |    3")
@@ -63,6 +67,8 @@ class Director:
         report = Report(self.file_name, self.filters_object.get_filters(), use_filters, csv_column_info).create_report()
 
     def view_csv(self):
+
+        # Read a csv file and display it
         self.clear()
         print("...Financial Statement Reveiwer...")
         print(f"\nFile: {self.file_name}\n")
@@ -70,12 +76,17 @@ class Director:
         for line in csv_file:
             print(line)
 
+        # Return to the main menu
         input("\nPress enter to return to the main menu.")
         self.main_menu()
 
     def view_filters(self):
+
+        # Display the filters
         self.clear()
         self.filters_object.display_filters()
+
+        # Return to the main menu
         input("Press enter to return to the main menu.")
         self.main_menu()
 

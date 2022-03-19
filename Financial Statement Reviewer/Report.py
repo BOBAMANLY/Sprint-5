@@ -28,6 +28,8 @@ class Report:
             _ = system('clear')
 
     def save_report(self, report):
+
+        # Save the report
         report_name = input("Please enter a name for the report: ")
         with open(f"Financial Statement Reviewer/Reports/{report_name}.csv", "w", newline="") as save_file:
             writer = csv.writer(save_file)
@@ -66,6 +68,8 @@ class Report:
                             else:
                                 print("\nInvalid input. Please try again.")
                                 continue
+
+                    # Filter the report manually
                     elif saved == "no":
                         self.saved_filters_bool = False
                         self.filter_report(csv_file)
@@ -76,6 +80,8 @@ class Report:
                 else:
                     print("\nInvalid input. Please try again.")
                     continue
+            
+        # Create a generic report
         else:
             self.generic_report(csv_file)
 
@@ -85,6 +91,8 @@ class Report:
     
     # Report types
     def generic_report(self, csv_file):
+
+        # Create the report
         expenditures = self.organize_expenditures(csv_file)
         income = self.organize_income(csv_file)
 
@@ -120,12 +128,15 @@ class Report:
 
     def saved_filter_report(self, csv_file):
         #[{'date': '', 'amount': -886.95, 'description': '', 'category': '', 'classification': ''}]
+
+        # Create the report
         report = []
         main_header = ["Date", "Amount", "Description"]
         header = [f"{main_header[0]:10}{main_header[1]:10}{main_header[2]:30}"]
         report.append(header)
         report.append("")
 
+        # Get the filter and if filter is valid, create the report
         for type in self.specific_filter:
             if type["amount"] != "":
                 filtered_amounts = self.filter_amount(csv_file)
@@ -179,6 +190,9 @@ class Report:
         
 
     def filter_report(self, csv_file):
+
+        # Create the report
+        # Filter manually
         loop = True
         while loop == True:
             date_filter_q = input("Would you like to filter by date? (yes/no): ").lower()
@@ -240,6 +254,8 @@ class Report:
     csv_column_info = [{date},{description},{amount},{negative_numbers_bool}]
     """
     def filter_date(self, csv_file):
+
+        # Get the date filter
         filtered_dates = []
         if self.saved_filters_bool == True:
             date_to_filter = self.specific_filter[0]["date"]
@@ -251,6 +267,7 @@ class Report:
                 return [["No transactions found."], ""]
             return filtered_dates
 
+        # Filter by date manually
         elif self.saved_filters_bool == False:
             print("Input the date in the same format as your .csv file.")
             date_to_filter = input("Please enter the date you would like to filter by: ")
@@ -266,6 +283,8 @@ class Report:
             exit()
 
     def filter_amount(self, csv_file):
+
+        # Get the amount filter
         filtered_amounts = []
         if self.saved_filters_bool == True:
             amount_to_filter = self.specific_filter[0]["amount"]
@@ -284,6 +303,7 @@ class Report:
                 return [["No transactions found."], ""]
             return filtered_amounts
             
+        # Filter by amount manually
         elif self.saved_filters_bool == False:
             print("Input the amount in the same format as your .csv file.")
             amount_to_filter = float(input("Please enter the amount you would like to filter by: "))
@@ -306,6 +326,8 @@ class Report:
             exit()
 
     def filter_description(self, csv_file):
+
+        # Get the description filter
         filtered_descriptions = []
         if self.saved_filters_bool == True:
             description_to_filter = self.specific_filter[0]["description"].lower()
@@ -317,6 +339,7 @@ class Report:
                 return [["No transactions found."], ""]
             return filtered_descriptions
 
+        # Filter by description manually
         elif self.saved_filters_bool == False:
             print("Input the description in the same format as your .csv file.")
             description_to_filter = input("Please enter the description you would like to filter by: ").lower()
@@ -332,6 +355,8 @@ class Report:
             exit()
 
     def organize_expenditures(self, csv_file):
+
+        # Organize expenditures
         expenditures = []
         for transaction in csv_file:
             if "$" in transaction[self.csv_column_info[2]]:
@@ -358,6 +383,8 @@ class Report:
         return expenditures
 
     def organize_income(self, csv_file):
+
+        # Organize income
         income = []
         for transaction in csv_file:
             if "$" in transaction[self.csv_column_info[2]]:
